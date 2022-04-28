@@ -1,15 +1,13 @@
 package oni.gouv.ht.Controller;
 
 import io.swagger.annotations.Api;
+import oni.gouv.ht.Bean.ApplicationBean;
 import oni.gouv.ht.Exception.AlreadyExistdException;
 import oni.gouv.ht.Exception.NotFoundException;
-import oni.gouv.ht.Interface.IUserService;
-import oni.gouv.ht.Repository.ImageRepository;
-import oni.gouv.ht.Services.IAppService;
-import oni.gouv.ht.Interface.IInstitutionService;
+import oni.gouv.ht.Models.AppResponse;
+import oni.gouv.ht.Services.IApplicationService;
 import oni.gouv.ht.Utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,60 +17,64 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/api/app")
 @Api(description = "API pour les opérations CRUD sur les Users.")
-public class AppController {
-    @Autowired
-    IUserService userService;
+public class ApplicationController {
 
     @Autowired
-    ImageRepository imageRepository;
+    IApplicationService iApplicationService;
 
 
-    @Autowired
-    IAppService iappService;
-
-    @Autowired
-    IInstitutionService iInstitutionService;
-
-    @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> createApp() throws AlreadyExistdException, IOException {
-        return ResponseEntity.ok(null);
+    @PostMapping(value = "/create",produces = "application/json")
+    public ResponseEntity<?> createApp(@RequestBody ApplicationBean applicationBean) throws AlreadyExistdException, IOException {
+        ApplicationBean bean= iApplicationService.createApplication(applicationBean);
+        return ResponseEntity.ok(new AppResponse<ApplicationBean>(null, null,false, "Application Create"));
     }
 
 
     @GetMapping(value = "/getApplicationBynameAndRequestPrice/{name}", produces = "application/json")
     public ResponseEntity<?> getApplicationBynameAndRequestPrice(@PathVariable String name) throws NotFoundException {
-        return ResponseEntity.ok(iappService.getApplicationBynameAndRequestPrice(name));
+        return ResponseEntity.ok(iApplicationService.getApplicationBynameAndRequestPrice(name));
     }
 
 
     @GetMapping(value = "/getAllApplicationsByRequestPrice", produces = "application/json")
     public ResponseEntity<?> getAllApplicationsByRequestPrice() throws NotFoundException {
-        return ResponseEntity.ok(iappService.getAllApplicationsByRequestPrice());
+        return ResponseEntity.ok(iApplicationService.getAllApplicationsByRequestPrice());
     }
 
 
-    //not
+
     @GetMapping(value = "/getAllInstByRequestPrice", produces = "application/json")
     public ResponseEntity<?> getAllInstByRequestPrice() throws NotFoundException {
-        return ResponseEntity.ok(iappService.getAllInstByRequestPrice());
+        return ResponseEntity.ok(iApplicationService.getAllInstByRequestPrice());
     }
 
 
     @GetMapping(value = "/getHomeStat", produces = "application/json")
     public ResponseEntity<?> getHomeStat() throws NotFoundException {
-        return ResponseEntity.ok(iappService.getHomeStat());
+        return ResponseEntity.ok(iApplicationService.getHomeStat());
     }
 
 
     @GetMapping(value = "/getAllApplicationsByRequestPriceDate/{debut}/{fin}", produces = "application/json")
     public ResponseEntity<?> getAllApplicationsByRequestPriceDate(@PathVariable("debut") String debut,@PathVariable("fin") String fin ) throws NotFoundException {
-        return ResponseEntity.ok(iappService.getAllApplicationsByRequestPriceDate(DateUtils.getLDT(debut),DateUtils.getLDT(fin)));
+        return ResponseEntity.ok(iApplicationService.getAllApplicationsByRequestPriceDate(DateUtils.getLDT(debut),DateUtils.getLDT(fin)));
     }
 
     @GetMapping(value = "/getAllInstByRequestPriceAndDate/{debut}/{fin}", produces = "application/json")
     public ResponseEntity<?> getAllInstByRequestPriceAndDate(@PathVariable("debut") String debut,@PathVariable("fin") String fin ) throws NotFoundException {
-        return ResponseEntity.ok(iappService.getAllInstByRequestPriceAndDate(DateUtils.getLDT(debut),DateUtils.getLDT(fin)));
+        return ResponseEntity.ok(iApplicationService.getAllInstByRequestPriceAndDate(DateUtils.getLDT(debut),DateUtils.getLDT(fin)));
     }
+
+
+    @GetMapping(value = "/getAllApplications", produces = "application/json")
+    public ResponseEntity<?> getAllApplications() throws NotFoundException {
+        return ResponseEntity.ok(iApplicationService.getAllAplications());
+    }
+
+
+
+
+
 
 
 /*

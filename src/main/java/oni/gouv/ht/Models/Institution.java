@@ -22,7 +22,6 @@ public class Institution {
     private String slogan;
     private String email;
     private String address;
-    private String address1;
     private String telephone;
     private String telephone1;
     private String city;
@@ -34,6 +33,8 @@ public class Institution {
     private Long createBy;
     private Long updateBy;
     private boolean enabled;
+
+
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_image", nullable = true)
@@ -47,6 +48,8 @@ public class Institution {
         this.name = name;
         this.apps = apps;
     }
+
+
 
     public Institution(String name, String slogan, String e ) {
         this.name = name;

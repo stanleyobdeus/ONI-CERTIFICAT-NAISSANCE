@@ -2,12 +2,11 @@ package oni.gouv.ht.Controller;
 
 import io.swagger.annotations.Api;
 import oni.gouv.ht.Bean.InstitutionBean;
-import oni.gouv.ht.Bean.UserBean;
 import oni.gouv.ht.Exception.AlreadyExistdException;
 import oni.gouv.ht.Interface.IUserService;
 import oni.gouv.ht.Models.AppResponse;
 import oni.gouv.ht.Repository.ImageRepository;
-import oni.gouv.ht.Services.IAppService;
+import oni.gouv.ht.Services.IApplicationService;
 import oni.gouv.ht.Interface.IInstitutionService;
 import oni.gouv.ht.Utils.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,23 +30,32 @@ public class InstitutionController {
 
 
     @Autowired
-    IAppService iappService;
+    IApplicationService iappService;
 
     @Autowired
     IInstitutionService institutionService;
 
     @PostMapping(value = "/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE}, produces = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> createInstitution(
-                                               @RequestPart("data") InstitutionBean institutionBean,
-                                               @RequestPart(value = "logo", required = false) MultipartFile logo) throws AlreadyExistdException, IOException {
+    public ResponseEntity<?> createInstitution(@RequestPart("data") InstitutionBean institutionBean,
+                                               @RequestPart(value = "logo", required = false) MultipartFile file) throws AlreadyExistdException, IOException {
 
-        System.out.println("Le Nom Du Fichier Est "+logo.getOriginalFilename()+" "+institutionBean.getName());
-
-       // InstitutionBean bean= institutionService.CreateInstitution(institutionBean,file);
-
-        //return ResponseEntity.ok(new AppResponse<InstitutionBean>(bean, null,false, Constant.INSTITUTION_CREATE));
-        return null;
+        System.out.println(institutionBean.getName());
+        InstitutionBean bean= institutionService.CreateInstitution(institutionBean,file);
+        return ResponseEntity.ok(new AppResponse<InstitutionBean>(null, null,false, Constant.INSTITUTION_CREATE));
     }
+
+    @GetMapping(value = "/getAllInstitutionWithNameAndId", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllInstitutionWithNameAndId() {
+        return ResponseEntity.ok(institutionService.getAllInsttitutionByCriteria());
+    }
+
+
+    @GetMapping(value = "/getAllInstitution", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllInstitutions() {
+        return ResponseEntity.ok(institutionService.getAllInstitutions());
+    }
+
+
 
 
 

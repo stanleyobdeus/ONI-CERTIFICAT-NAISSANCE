@@ -5,14 +5,10 @@ import lombok.Data;
 import oni.gouv.ht.Models.Application;
 import oni.gouv.ht.Models.Request;
 import oni.gouv.ht.Repository.RequestRepository;
-import oni.gouv.ht.Services.CitizenService;
-import oni.gouv.ht.Services.IAppService;
-import org.apache.commons.collections4.MultiValuedMap;
+import oni.gouv.ht.Services.IApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
@@ -22,17 +18,36 @@ import java.util.Optional;
 public class BaseController {
 
     @Autowired
-    IAppService app;
+    IApplicationService app;
 
     @Autowired
     RequestRepository requestRepository;
 
+
+    public boolean isAuthentificate(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            if(((UserDetails)principal).getUsername()!=null)
+                return true;
+        }
+        return false;
+    }
+
     public ApiMessage checkAppBefore(String params, HttpServletRequest request) {
+        ApiMessage<Application> am = new ApiMessage<Application>();
+
+         if(isAuthentificate()){
+             am.setError(false);
+             am.setMsg("User ONI Is Connect..!");
+             return am;
+         }
+
+
         String ipAddress = request.getHeader("X-Forward-For");
         if (ipAddress == null) {
             ipAddress = request.getRemoteAddr();
         }
-        ApiMessage<Application> am = new ApiMessage<Application>();
+
         am.setIp(ipAddress);
         am.setError(true);
         String[] keys;

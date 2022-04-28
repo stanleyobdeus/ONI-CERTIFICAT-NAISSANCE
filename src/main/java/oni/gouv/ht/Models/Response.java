@@ -9,6 +9,10 @@ public class  Response<T> {
         this.error = error;
     }
 
+    public Response(String message) {
+
+    }
+
     public T getData() {
         return data;
     }
