@@ -34,7 +34,7 @@ public interface IApplicationService {
 
     StatResponse getHomeStat();
 
-    List<ApplicationBean> getAllAplications();
+    List<ApplicationDto>  getAllAplications();
 
 
 }

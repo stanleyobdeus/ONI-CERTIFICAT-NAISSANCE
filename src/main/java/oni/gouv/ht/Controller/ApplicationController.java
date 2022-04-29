@@ -7,11 +7,16 @@ import oni.gouv.ht.Exception.NotFoundException;
 import oni.gouv.ht.Models.AppResponse;
 import oni.gouv.ht.Services.IApplicationService;
 import oni.gouv.ht.Utils.DateUtils;
+import oni.gouv.ht.Utils.EmailService;
+import oni.gouv.ht.Utils.MailResponse;
+import org.jobrunr.scheduling.JobScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin(origins = "http://197.168.1.28:4200", maxAge = 3600)
 @RestController
@@ -65,9 +70,19 @@ public class ApplicationController {
         return ResponseEntity.ok(iApplicationService.getAllInstByRequestPriceAndDate(DateUtils.getLDT(debut),DateUtils.getLDT(fin)));
     }
 
+    @Autowired
+    private EmailService service;
+
+    @Autowired
+    private JobScheduler jobScheduler;
+
+
 
     @GetMapping(value = "/getAllApplications", produces = "application/json")
     public ResponseEntity<?> getAllApplications() throws NotFoundException {
+        Map<String, Object> model = new HashMap<>();
+        model.put("name", "obdeus");
+        //jobScheduler.enqueue(() -> service.sendEmail(model));
         return ResponseEntity.ok(iApplicationService.getAllAplications());
     }
 

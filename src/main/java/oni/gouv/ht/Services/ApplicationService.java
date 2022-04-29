@@ -141,13 +141,11 @@ public class ApplicationService implements IApplicationService {
     }
 
     @Override
-    public List<ApplicationBean> getAllAplications() {
-        List<Application> entity=applicationRepository.findAll();
-        if(entity==null){
-            return null;
-        }
-        List<ApplicationBean> applicationBeans = modelMapper.map(entity, ArrayList.class);
-        return applicationBeans;
+    public List<ApplicationDto> getAllAplications() {
+        Optional<List<ApplicationDto>>entity=applicationRepository.getAllApplication();
+
+
+        return entity.get();
     }
 
 

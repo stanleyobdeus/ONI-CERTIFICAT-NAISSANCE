@@ -125,11 +125,11 @@ public class InstitutionServiceImpl implements IInstitutionService {
 
     @Override
     public List<InstitutionBean> getAllInstitutions() {
-        List<InstitutionDto> entity=institutionRepository.getAllInstitutions().get();
-        if(entity==null){
+        Optional<List<InstitutionDto>> entity=institutionRepository.getAllInstitutions();
+        if(!entity.isPresent()){
             return null;
         }
-        List<InstitutionBean> beanInstitution = modelMapper.map(entity, ArrayList.class);
+        List<InstitutionBean> beanInstitution = modelMapper.map(entity.get(), ArrayList.class);
         return beanInstitution;
     }
 
