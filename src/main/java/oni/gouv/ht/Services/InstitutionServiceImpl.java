@@ -37,17 +37,16 @@ public class InstitutionServiceImpl implements IInstitutionService {
 
 
     ModelMapper modelMapper;
-    @Autowired
-    ImageRepository imageRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
 
     {
         modelMapper = new ModelMapper();
     }
 
+    @Autowired
+    ImageRepository imageRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)

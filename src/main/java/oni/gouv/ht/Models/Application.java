@@ -1,6 +1,7 @@
 package oni.gouv.ht.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,6 +40,7 @@ public class Application {
     private Double request_price;
 
     @ManyToOne()
+    @JsonBackReference
     private Institution ins;
 
 

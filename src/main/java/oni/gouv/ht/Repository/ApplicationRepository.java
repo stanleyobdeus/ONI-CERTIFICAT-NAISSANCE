@@ -18,6 +18,8 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
     Optional<Application> getAppByName(String name);
 
 
+
+
     @Query(value ="SELECT new dto.ApplicationDto(a) FROM Application a")
     Optional<List<ApplicationDto>> getAllApplication();
 

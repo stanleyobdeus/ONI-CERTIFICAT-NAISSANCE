@@ -42,5 +42,8 @@ public interface RequestRepository extends JpaRepository<Request, Long> {
     Optional<List<ApplicationDto>> getAllInstByRequestPriceAndDate(LocalDateTime debut, LocalDateTime fin);
 
 
+//    @Query(value ="SELECT new dto.ApplicationDto(a.) FROM Request a  WHERE a.name=:name ")
+//    Optional<List<ApplicationDto>> getOneApplicationWithAllRequest(String name);
+
 
 }

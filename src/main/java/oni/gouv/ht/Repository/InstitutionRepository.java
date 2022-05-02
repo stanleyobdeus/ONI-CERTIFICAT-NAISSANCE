@@ -21,7 +21,7 @@ public interface InstitutionRepository extends JpaRepository<Institution, Long> 
     Optional<List<InstitutionDto>> getAllInsttitutionByCriteria();
 
 
-    @Query("SELECT new dto.InstitutionDto(a.name,a.id,a.slogan,a.email,a.address,a.telephone,a.telephone1,a.city,a.country,a.state,a.code_postal,a.creataDate,a.createBy,a.enabled) FROM Institution a")
+    @Query("SELECT new dto.InstitutionDto(institution) FROM Institution institution")
     Optional<List<InstitutionDto>> getAllInstitutions();
 
 }

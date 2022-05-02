@@ -22,6 +22,7 @@ public class ApplicationDto {
     private String secret_key;
     private String public_key;
     private int strict;
+    private Long id_institution;
 
     public ApplicationDto(String name, double price, String ins, Long reqTotal){
         this.name = name;
@@ -51,6 +52,7 @@ public class ApplicationDto {
         this.public_key=a.getPublic_key();
         this.secret_key=a.getSecret_key();
         this.strict=a.getStrict();
+        this.id_institution=a.getIns().getId();
     }
 
 

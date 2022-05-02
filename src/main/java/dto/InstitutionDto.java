@@ -5,17 +5,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import oni.gouv.ht.Bean.ApplicationBean;
+import oni.gouv.ht.Models.Application;
+import oni.gouv.ht.Models.Institution;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class InstitutionDto {
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String name;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long id;
-
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String slogan;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -40,7 +47,15 @@ public class InstitutionDto {
     private Long createBy;
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private boolean enabled;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<ApplicationDto> applicationDtoList;
 
+   /* ModelMapper modelMapper;
+
+    {
+        modelMapper = new ModelMapper();
+        applicationDtoList = new ArrayList<>();
+    }*/
 
     public InstitutionDto(String name, Long id) {
         this.name = name;
@@ -48,20 +63,27 @@ public class InstitutionDto {
     }
 
 
-    public InstitutionDto(String name, Long id, String slogan, String email, String address, String telephone, String telephone1, String city, String country, String state, String code_postal, LocalDateTime creataDate, Long createBy, boolean enabled) {
-        this.name = name;
-        this.id = id;
-        this.slogan = slogan;
-        this.email = email;
-        this.address = address;
-        this.telephone = telephone;
-        this.telephone1 = telephone1;
-        this.city = city;
-        this.country = country;
-        this.state = state;
-        this.code_postal = code_postal;
-        this.creataDate = creataDate;
-        this.createBy = createBy;
-        this.enabled = enabled;
+    public InstitutionDto(Institution institution) {
+        this.name = institution.getName();
+        this.id = institution.getId();
+        this.slogan = institution.getSlogan();
+        this.email = institution.getEmail();
+        this.address = institution.getAddress();
+        this.telephone = institution.getTelephone();
+        this.telephone1 = institution.getTelephone1();
+        this.city = institution.getCity();
+        this.country = institution.getCountry();
+        this.state = institution.getState();
+        this.code_postal = institution.getCode_postal();
+        this.creataDate = institution.getCreataDate();
+        this.createBy = institution.getCreateBy();
+        this.enabled = institution.isEnabled();
+
+     /*   institution.setImages(null);
+
+        for (Application application : institution.apps) {
+            this.applicationDtoList.add(modelMapper.map(application, ApplicationDto.class));
+        }
+        this.applicationDtoList = modelMapper.map(institution.getApps(), ArrayList.class);*/
     }
 }
